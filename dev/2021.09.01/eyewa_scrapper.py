@@ -154,5 +154,7 @@ if __name__ == '__main__':
     all_products_dict2 = product_detail_getter_2(all_products_dict)
     df= pd.DataFrame.from_dict(all_products_dict2,orient='index')
     df['date_created'] = datetime.now()
+    df.astype({'actualPrice': 'float', 'discountedPrice': 'float'})
     engine = create_engine('sqlite:///../data/eyewa.db', echo=False)
+    df.to_sql('eyewa_catalogue_current', con=engine, if_exists='replace')
     df.to_sql('eyewa_catalogue_archive', con=engine, if_exists='append')
